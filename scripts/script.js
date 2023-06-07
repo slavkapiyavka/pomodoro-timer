@@ -1,24 +1,48 @@
+const timerDisplayElement = document.querySelector('.timer-display');
+const endTimeElement = document.querySelector('.end-time');
+const timerStartButton = document.querySelector('.timer-button.start');
+
 let interval;
-const timer = (seconds) => {
+
+const timer = (seconds = 1500) => {
+    if (interval) {
+        clearInterval(interval);
+    };
+
     const currentTime = Date.now();
     const finishTime = currentTime + seconds * 1000;
 
     displayTimer(seconds);
+    displayEndTime(finishTime);
 
     interval = setInterval(() => {
         const secondsLeft = Math.round((finishTime - Date.now()) / 1000);
-        if (secondsLeft > 0) {
-            displayTimer(secondsLeft);
-        } else {
+        if (secondsLeft < 0) {
             clearInterval(interval);
-            return console.log('Таймер всё! Перерыв');;
+            return console.log('Таймер всё! Перерыв');
         }
+
+
+        displayTimer(secondsLeft);
+        displayEndTime(finishTime);
     }, 1000);
-}
+};
 
-const displayTimer = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const restSeconds = seconds % 60;
+const displayEndTime = (timestamp) => {
+    const endTime = new Date(timestamp);
+    const hours = endTime.getHours();
+    const minutes = endTime.getMinutes();
 
-    console.log(`${minutes}:${restSeconds}`);
-}
+    endTimeElement.textContent = `До ${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+};
+
+const displayTimer = (sec) => {
+    const minutes = Math.floor(sec / 60);
+    const seconds = sec % 60;
+    const timerView = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    timerDisplayElement.textContent = timerView;
+    endTimeElement.textContent = '';
+    document.title = timerView;
+};
+
