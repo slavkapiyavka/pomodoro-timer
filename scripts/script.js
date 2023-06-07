@@ -1,6 +1,7 @@
 const timerDisplayElement = document.querySelector('.timer-display');
 const endTimeElement = document.querySelector('.end-time');
 const timerStartButton = document.querySelector('.timer-button.start');
+const timerStopButton = document.querySelector('.timer-button.stop');
 
 let interval;
 
@@ -22,9 +23,7 @@ const timer = (seconds = 1500) => {
             return console.log('Таймер всё! Перерыв');
         }
 
-
         displayTimer(secondsLeft);
-        displayEndTime(finishTime);
     }, 1000);
 };
 
@@ -42,11 +41,19 @@ const displayTimer = (sec) => {
     const timerView = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
     timerDisplayElement.textContent = timerView;
-    endTimeElement.textContent = '';
     document.title = timerView;
 };
 
 const startTimer = () => {
     timer();
 }
+
+const stopTimer = () => {
+    clearInterval(interval);
+    timerDisplayElement.textContent = 'Таймер остановлен';
+    endTimeElement.textContent = '--:--';
+    document.title = 'таймер остановлен';
+}
+
 timerStartButton.addEventListener('click', startTimer);
+timerStopButton.addEventListener('click', stopTimer);
