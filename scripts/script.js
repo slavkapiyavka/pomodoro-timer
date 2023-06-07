@@ -46,3 +46,7 @@ const displayTimer = (sec) => {
     document.title = timerView;
 };
 
+const startTimer = () => {
+    timer();
+}
+timerStartButton.addEventListener('click', startTimer);
