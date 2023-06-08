@@ -49,37 +49,52 @@ const displayTimer = (sec) => {
 
 const startTimer = () => {
     timer();
-    timerStartButton.setAttribute('disabled', true);
-    timerPauseButton.removeAttribute('disabled');
-    timerStopButton.removeAttribute('disabled');
+    modifyTimerState('start');
 };
 
 const pauseTimer = () => {
-    console.log(pauseTimestamp);
-
     if (timerPauseButton.textContent === 'продолжить') {
         timerPauseButton.textContent = 'поставить таймер на паузу';
         timer(pauseTimestamp);
     } else {
-        pauseTimestamp
         clearInterval(interval);
-        // timerDisplayElement.textContent = pauseTimestamp;
-        endTimeElement.textContent = 'таймер на паузе';
-        document.title = 'таймер на паузе';
-        timerPauseButton.textContent = 'продолжить';
+        modifyTimerState('pause');
     }
 }
 
 const stopTimer = () => {
     clearInterval(interval);
-    timerDisplayElement.textContent = 'таймер остановлен';
-    endTimeElement.textContent = '--:--';
-    document.title = 'таймер остановлен';
-    timerStartButton.removeAttribute('disabled');
-    timerPauseButton.setAttribute('disabled', true);
-    timerPauseButton.textContent = 'поставить таймер на паузу';
-    timerStopButton.setAttribute('disabled', true);
+    modifyTimerState('stop');
 }
+
+const modifyTimerState = (state) => {
+    switch (state) {
+        case 'start': {
+            timerStartButton.setAttribute('disabled', true);
+            timerPauseButton.removeAttribute('disabled');
+            timerStopButton.removeAttribute('disabled');
+        }
+            break;
+        case 'pause': {
+            endTimeElement.textContent = 'таймер на паузе';
+            document.title = 'таймер на паузе';
+            timerPauseButton.textContent = 'продолжить';
+        }
+            break;
+        case 'stop': {
+            timerDisplayElement.textContent = 'таймер остановлен';
+            endTimeElement.textContent = '--:--';
+            document.title = 'таймер остановлен';
+            timerStartButton.removeAttribute('disabled');
+            timerPauseButton.setAttribute('disabled', true);
+            timerPauseButton.textContent = 'поставить таймер на паузу';
+            timerStopButton.setAttribute('disabled', true);
+        }
+            break;
+        default:
+            break;
+    }
+};
 
 timerStartButton.addEventListener('click', startTimer);
 timerPauseButton.addEventListener('click', pauseTimer);
