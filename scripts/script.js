@@ -1,5 +1,5 @@
-const timerDisplayElement = document.querySelector('.timer-display');
-const endTimeElement = document.querySelector('.end-time');
+const timerDisplayElement = document.querySelector('.timer-display__time');
+const endTimeElement = document.querySelector('.timer-display__end-time');
 const timerStartButton = document.querySelector('.timer-button.start');
 const timerStopButton = document.querySelector('.timer-button.stop');
 

@@ -1,0 +1,26 @@
+.timer-section {
+    display: grid;
+    grid-template-columns: [start] 1fr [middle] 1fr [end] 1fr;
+    grid-auto-rows: auto min-content;
+    gap: 4px 8px;
+}
+
+.timer-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-column: 1 / -1;
+    justify-self: center;
+}
+
+.timer-button.start {
+    grid-column: 1 / 2;
+}
+
+.timer-button.pause {
+    grid-column: 2 / -2;
+}
+
+.timer-button.stop {
+    grid-column: -2 / -1;
+}

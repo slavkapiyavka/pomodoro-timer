@@ -6,14 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POMODORO timer</title>
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 
 <body>
-
-    <span class="timer-display"></span>
-    <span class="end-time"></span>
-    <button class="timer-button start">запустить таймер</button>
-    <button class="timer-button stop">остановить таймер</button>
+    <section class="timer-section">
+        <div class="timer-display">
+            <span class="timer-display__time">25:00</span>
+            <span class="timer-display__end-time">таймер пока что не запущен</span>
+        </div>
+        <button class="timer-button start">запустить таймер</button>
+        <button class="timer-button pause">поставить таймер на паузу</button>
+        <button class="timer-button stop">остановить таймер</button>
+    </section>
     <script src="scripts/script.js"></script>
 </body>
 
