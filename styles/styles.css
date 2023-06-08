@@ -1,3 +1,11 @@
+.body {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    margin: 0;
+    padding: 4px 6px;
+}
+
 .timer-section {
     display: grid;
     grid-template-columns: [start] 1fr [middle] 1fr [end] 1fr;
