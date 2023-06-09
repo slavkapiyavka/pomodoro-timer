@@ -4,6 +4,10 @@ const timerStartButton = document.querySelector('.timer-button.start');
 const timerPauseButton = document.querySelector('.timer-button.pause');
 const timerStopButton = document.querySelector('.timer-button.stop');
 
+const SHORT_BREAK = 300;
+const LONG_BREAK = 900;
+
+let currentBreak = null;
 let interval;
 let pauseTimestamp = null;
 
@@ -20,14 +24,34 @@ const timer = (seconds = 1500) => {
 
     interval = setInterval(() => {
         const secondsLeft = Math.round((finishTime - Date.now()) / 1000);
-        if (secondsLeft < 0) {
+        if (secondsLeft <= 0) {
             clearInterval(interval);
-            return console.log('таймер всё! Перерыв');
+
+            switch (currentBreak) {
+                case 'short':
+                    timer(SHORT_BREAK);
+                    modifyTimerState(currentBreak);
+                    currentBreak = 'middle';
+                    break;
+                case 'middle':
+                    timer();
+                    currentBreak = 'long';
+                    break;
+                case 'long':
+                    timer(LONG_BREAK);
+                    modifyTimerState(currentBreak);
+                    currentBreak = null;
+                    break;
+                default:
+                    timer();
+                    currentBreak = 'short';
+                    break;
+            };
         }
 
         pauseTimestamp = secondsLeft;
         displayTimer(secondsLeft);
-    }, 1000);
+    }, 125);
 };
 
 const displayEndTime = (timestamp) => {
@@ -50,6 +74,7 @@ const displayTimer = (sec) => {
 const startTimer = () => {
     timer();
     modifyTimerState('start');
+    currentBreak = 'short';
 };
 
 const pauseTimer = () => {
@@ -65,6 +90,7 @@ const pauseTimer = () => {
 const stopTimer = () => {
     clearInterval(interval);
     modifyTimerState('stop');
+    currentBreak = null;
 }
 
 const modifyTimerState = (state) => {
@@ -90,6 +116,12 @@ const modifyTimerState = (state) => {
             timerPauseButton.textContent = 'поставить таймер на паузу';
             timerStopButton.setAttribute('disabled', true);
         }
+            break;
+        case 'short':
+            endTimeElement.textContent = 'разомнись, ведь у тебя короткий перерыв!';
+            break;
+        case 'long':
+            endTimeElement.textContent = 'папей чаю, ведь у тебя длинный перерыв!';
             break;
         default:
             break;
